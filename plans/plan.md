@@ -114,6 +114,7 @@ timestamp tie-break — the write lock makes the order total.
 - **Produces:** `identity.py`, `conflicts.py`
 - **Done when:** nested paths conflict both ways, aliases normalize consistently, and different repositories do not conflict
 - **Depends on:** 1
+- **Status:** DONE (2026-07-27)
 
 <!-- autofix-applied: 2026-07-25 -->
 ### Step 3: Implement the append-only ledger
