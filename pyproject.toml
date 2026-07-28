@@ -1,0 +1,44 @@
+[project]
+name = "heads-up"
+version = "0.1.0"
+description = "Advisory claims for parallel development work."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+# No runtime dependencies — standard library only (locking uses stdlib msvcrt in Step 3).
+dependencies = []
+
+[project.scripts]
+heads-up = "heads_up.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/heads_up"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+# The quality gate runs `mypy --strict src`; keep the config-less default aligned.
+files = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

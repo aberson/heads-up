@@ -83,6 +83,7 @@ timestamp tie-break — the write lock makes the order total.
 - **Produces:** scaffold, `models.py`, schema reference, validation tests
 - **Done when:** malformed resources, owners, timestamps, and non-finite TTLs fail explicitly; quality gates pass
 - **Depends on:** none
+- **Status:** DONE (2026-07-27)
 - **Schema summary** (fields from the approved seed `../../docs/seeds/seed_heads_up.md` § Outcome / § Inputs; this step freezes the exact types):
 
   `ClaimEvent` shape:
