@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# uv / virtualenv
+.venv/
+venv/
+
+# Build/prep orchestration artifacts (build-step worktrees, prep reports)
+.build-step/
+
+# OS
+.DS_Store
+Thumbs.db

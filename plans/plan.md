@@ -78,7 +78,7 @@ timestamp tie-break — the write lock makes the order total.
 ### Step 1: Scaffold and freeze the event schema
 - **Problem:** Create the uv package, claim/release models, stable IDs, TTL rules, and JSON/text contracts.
 - **Type:** code
-- **Issue:** #
+- **Issue:** #1
 - **Flags:** --reviewers deep --isolation worktree
 - **Produces:** scaffold, `models.py`, schema reference, validation tests
 - **Done when:** malformed resources, owners, timestamps, and non-finite TTLs fail explicitly; quality gates pass
@@ -108,7 +108,7 @@ timestamp tie-break — the write lock makes the order total.
 ### Step 2: Build canonical identity and overlap rules
 - **Problem:** Normalize repositories and Windows paths and implement exact-resource plus ancestor/descendant conflict detection.
 - **Type:** code
-- **Issue:** #
+- **Issue:** #2
 - **Flags:** --reviewers deep --isolation worktree
 - **Produces:** `identity.py`, `conflicts.py`
 - **Done when:** nested paths conflict both ways, aliases normalize consistently, and different repositories do not conflict
@@ -118,17 +118,18 @@ timestamp tie-break — the write lock makes the order total.
 ### Step 3: Implement the append-only ledger
 - **Problem:** Add atomic append, replay, release, expiry, corruption diagnostics, and stable active-state derivation. Writers serialize via stdlib `msvcrt.locking` (exclusive) on a sidecar `ledger.jsonl.lock`: bounded retry of roughly 5 seconds total, then exit 2 (usage/ledger error); append and flush while the lock is held, then release. No portalocker or other runtime dependency.
 - **Type:** code
-- **Issue:** #
+- **Issue:** #3
 - **Flags:** --reviewers deep --isolation worktree
 - **Produces:** `ledger.py`, storage tests
 - **Done when:** released and expired claims remain auditable but inactive; malformed lines are diagnosed; concurrent writers serialize through the sidecar `msvcrt.locking` lock and do not corrupt records; all sessions and worktrees of a repository resolve the same ledger file
 - **Depends on:** 1
 
+<!-- autofix-applied: 2026-07-28 -->
 ### Step 4: Expose the lifecycle CLI
 - **Problem:** Implement `claim/check/release/list` with conflict evidence, JSON output, and meaningful exit codes.
 - **Type:** code
-- **Issue:** #
-- **Flags:** --reviewers code --isolation worktree
+- **Issue:** #4
+- **Flags:** --reviewers deep --isolation worktree
 - **Produces:** `cli.py`, installed command, end-to-end CLI tests
 - **Done when:** a second conflicting claim receives both claim IDs and source evidence; clean claims and explicit releases behave deterministically
 - **Depends on:** 2, 3
@@ -136,7 +137,7 @@ timestamp tie-break — the write lock makes the order total.
 ### Step 5: Validate parallel behavior and publish integration contract
 - **Problem:** Run simultaneous claim attempts and document the minimal invocation contract for existing orchestrators without editing those projects. `docs/integration-contract.md` cites section 10's canonical cross-repo invocation and specifies the contract as CLI + JSON + exit codes only, so any substitute caller speaking the same formats works identically.
 - **Type:** code
-- **Issue:** #
+- **Issue:** #5
 - **Flags:** --reviewers code --isolation worktree
 - **Produces:** concurrency stress tests, `docs/integration-contract.md`, findings
 - **Done when:** repeated concurrent runs preserve a parseable ledger; on each contested resource the first-appended claim reports clean (exit 0) while every later conflicting claim is still appended, carries both claim IDs in its conflict evidence, and exits 1; and callers can consume JSON without importing Python internals
