@@ -146,6 +146,7 @@ timestamp tie-break — the write lock makes the order total.
 - **Produces:** concurrency stress tests, `docs/integration-contract.md`, findings
 - **Done when:** repeated concurrent runs preserve a parseable ledger; on each contested resource the first-appended claim reports clean (exit 0) while every later conflicting claim is still appended, carries both claim IDs in its conflict evidence, and exits 1; and callers can consume JSON without importing Python internals
 - **Depends on:** 4
+- **Status:** DONE (2026-07-27)
 
 ## 8. Risks and Open Questions
 
