@@ -136,6 +136,7 @@ timestamp tie-break — the write lock makes the order total.
 - **Produces:** `cli.py`, installed command, end-to-end CLI tests
 - **Done when:** a second conflicting claim receives both claim IDs and source evidence; clean claims and explicit releases behave deterministically
 - **Depends on:** 2, 3
+- **Status:** DONE (2026-07-27)
 
 ### Step 5: Validate parallel behavior and publish integration contract
 - **Problem:** Run simultaneous claim attempts and document the minimal invocation contract for existing orchestrators without editing those projects. `docs/integration-contract.md` cites section 10's canonical cross-repo invocation and specifies the contract as CLI + JSON + exit codes only, so any substitute caller speaking the same formats works identically.
