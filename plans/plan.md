@@ -125,6 +125,7 @@ timestamp tie-break — the write lock makes the order total.
 - **Produces:** `ledger.py`, storage tests
 - **Done when:** released and expired claims remain auditable but inactive; malformed lines are diagnosed; concurrent writers serialize through the sidecar `msvcrt.locking` lock and do not corrupt records; all sessions and worktrees of a repository resolve the same ledger file
 - **Depends on:** 1
+- **Status:** DONE (2026-07-27)
 
 <!-- autofix-applied: 2026-07-28 -->
 ### Step 4: Expose the lifecycle CLI
