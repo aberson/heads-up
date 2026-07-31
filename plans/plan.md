@@ -1,10 +1,8 @@
 # Seed Plan: heads-up
 
-<!-- decisions-applied: 2026-07-26 per dev/docs/plan-reviews/2026-07-25-utility/DECISIONS.md -->
+<!-- decisions-applied: 2026-07-26 -->
 
 ## 1. What This Feature Does
-
-Proposal: `../../docs/utility-project-proposal.html`
 
 Heads Up is a local-first utility project for advisory claims over active development work. It makes
 parallel intent visible before two sessions work on the same repository path, plan step, issue, or
@@ -13,14 +11,12 @@ remains auditable.
 
 ## 2. Existing Context
 
-- The workspace has recorded parallel-build collisions that wasted roughly 50 minutes and tens of
-  thousands of tokens, plus cross-session commit contamination.
-- The approved product seed is `../../docs/seeds/seed_heads_up.md`.
+- Parallel development sessions can collide on the same work — wasting time and tokens, and causing
+  cross-session commit contamination.
 - Worktrees isolate files but do not communicate intent. Heads Up owns coordination state and works
-  fully standalone with zero participating callers; any preflight or orchestration tool (Tripwire, a
-  sibling preflight-check project, is one candidate) may later consume conflict findings through the
-  CLI/JSON contract only — never by importing Heads Up internals — and Heads Up takes no dependency
-  on any consumer.
+  fully standalone with zero participating callers; any preflight or orchestration tool may later
+  consume conflict findings through the CLI/JSON contract only — never by importing Heads Up
+  internals — and Heads Up takes no dependency on any consumer.
 - V1 is single-machine and one-shot. It has no daemon, distributed lock service, or session control.
 
 ## 3. Scope
@@ -36,8 +32,6 @@ worktree, automatic merges, and inferred ownership without an explicit claim.
 | File | Change Type | Reason | Verified |
 |---|---|---|---|
 | `plans/plan.md` | add | Canonical project plan | New project |
-| `../../docs/seeds/seed_heads_up.md` | read-only input | Approved product seed | Read directly |
-| `../../docs/friction-catalog.md` | read-only input | Evidence for same-plan and concurrent-work failures | Grep confirmed recorded incidents |
 
 No existing session-state schema is modified in v1.
 
@@ -49,9 +43,9 @@ No existing session-state schema is modified in v1.
 - `src/heads_up/conflicts.py`: exact and ancestor/descendant overlap rules.
 - `src/heads_up/cli.py`: `claim`, `check`, `release`, and `list`.
 - `docs/integration-contract.md`: optional caller contract — a general interface contract (CLI
-  invocation, JSON output, exit codes), not a project binding. build-phase and repo-sync (this
-  workspace's build-orchestration skills) and Tripwire are example callers only; any substitute
-  caller speaking the same contract works identically, and Heads Up runs fully without any of them.
+  invocation, JSON output, exit codes), not a project binding. Build-orchestration or preflight
+  tools are example callers only; any substitute caller speaking the same contract works
+  identically, and Heads Up runs fully without any of them.
 
 ## 6. Design Decisions
 
@@ -84,7 +78,7 @@ timestamp tie-break — the write lock makes the order total.
 - **Done when:** malformed resources, owners, timestamps, and non-finite TTLs fail explicitly; quality gates pass
 - **Depends on:** none
 - **Status:** DONE (2026-07-27)
-- **Schema summary** (fields from the approved seed `../../docs/seeds/seed_heads_up.md` § Outcome / § Inputs; this step freezes the exact types):
+- **Schema summary** (this step freezes the exact types):
 
   `ClaimEvent` shape:
   | field | type | note |
@@ -183,7 +177,7 @@ on first claim); every verb accepts a `--ledger <path>` override. Per-repository
 comes from the schema's `repository` field — there is no per-repo file-key derivation, so all
 sessions and worktrees of a repository resolve the same file unconditionally.
 
-The canonical cross-repo invocation is `uv run --project c:/Users/abero/dev/heads-up heads-up
+The canonical cross-repo invocation is `uv run --project path/to/heads-up heads-up
 <verb> ...`; `uv tool install` and packaging stay out of scope until a distribution need exists.
 
 Exit codes (deliberately tool-local; sibling utilities define their own maps): 0 = success with no

@@ -42,7 +42,7 @@ heads-up list           # list active claims
 Cross-repo form (no `cd` required):
 
 ```bash
-uv run --project c:/Users/abero/dev/heads-up heads-up <verb> ...
+uv run --project path/to/heads-up heads-up <verb> ...
 ```
 
 ## Design decisions

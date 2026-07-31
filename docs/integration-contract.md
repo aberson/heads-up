@@ -2,8 +2,8 @@
 
 The minimal interface an orchestrator uses to consult heads-up before doing
 parallel work. This is a **general CLI + JSON + exit-code contract**, not a
-project binding: `build-phase`, `repo-sync`, and Tripwire are *example* callers
-only — do not edit those projects to add heads-up, and any substitute caller
+project binding: any build-orchestration or preflight tool is an *example*
+caller only — do not edit a caller to add heads-up, and any substitute caller
 speaking the same three formats works identically. heads-up takes **no**
 dependency on any consumer and runs fully standalone.
 
@@ -18,7 +18,7 @@ surface (pinned by `schema_version`).
 The canonical cross-repo invocation is:
 
 ```
-uv run --project c:/Users/abero/dev/heads-up heads-up <verb> [options] --json
+uv run --project path/to/heads-up heads-up <verb> [options] --json
 ```
 
 `uv run --project <path>` runs the installed `heads-up` console entry point from
@@ -123,7 +123,7 @@ proc = subprocess.run(
         "uv",
         "run",
         "--project",
-        "c:/Users/abero/dev/heads-up",
+        "path/to/heads-up",
         "heads-up",
         "claim",
         "--resource-kind",
@@ -182,5 +182,3 @@ OS processes racing a shared ledger, repeatedly:
   is deterministically the first-appended one; every later conflicting claimant
   is still appended (auditable), exits `1`, and carries both claim IDs.
 - Concurrent claims on distinct resources all succeed with no false conflicts.
-
-See `.build-step/dev-report.md` for the observed run numbers.
